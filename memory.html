@@ -97,10 +97,21 @@
                         }
                     }
                 }
+                function toggleColor(duration){
+                    setTimeout(function(){
+                        let redBoxes=document.querySelectorAll(".red")
+                        for(let box of redBoxes){
+                            box.classList.remove("red")
+                        }
+                    },duration)
+
+                }
                 function start(){
-                    loadBoxes(2)
+                    loadBoxes(4)
                     colorBoxes()
                     draw()
+                    toggleColor(1000)
+
                 }
                 start()
             }
