@@ -25,6 +25,9 @@
                 width: 200px;
                 height:100px;
             }
+            .red{
+                background-color: red;
+            }
 
         </style>
 
@@ -35,25 +38,72 @@
         </div>
         <script>
             window.onload=function(){
-                function getBox(){
-                    return "<div class='box'></div>"
-                }
-                function draw(numBoxes){
-                    let html="";
-                    document.querySelector(".container").classList.add(map.get(level));
-                    for(let i=0;i<numBoxes;i++){
-                        html+=getBox()
-                    }
-                    document.querySelector(".container").innerHTML=html
-                }
-                draw((level+1)**2)
-            }
-            let level=3;
+                let level=2;
             const map=new Map();
             map.set(1,"grid2x2")
             map.set(2,"grid3x3")
             map.set(3,"grid3x3")
 
+                function getBox(box){
+                    return `<div id="${box.id}" class="box ${box.color?box.color:""} " ></div>`
+                }
+                function draw(){
+                    let html="";
+                    document.querySelector(".container").classList.add(map.get(level));
+                    for(let box of boxes){
+                        html+=getBox(box)
+                    }
+                    document.querySelector(".container").innerHTML=html
+                }
+                const boxes=[]
+                function loadBoxes(numBoxes){ //first load the boxes, then load
+                    for(let i=0;i<numBoxes;i++)
+                     boxes[i]=makeBox(i);
+                }
+                function applyColor(){
+                    return  Math.floor(Math.random()*10)%2;//return 0 or 1
+
+                }
+                function colored(){
+                    for(let box of boxes){
+                        if(box.color)
+                           return true;
+                    }
+                    return false;
+                }
+                
+                function colorBoxes(){
+                    for(let box of boxes){
+                        if(applyColor())
+                        box.setColor("red");
+                    }
+
+                    if(!colored()){
+                        colorBoxes()
+                    }
+                   }
+
+                // loadBoxes(4)
+                 console.log(boxes)
+                // draw()
+                function makeBox(id){
+                return{
+                    closed:true,id,
+                    setColor(color){
+                        this.color=color
+                    },
+                        open(){
+                            this.closed=false
+                        }
+                    }
+                }
+                function start(){
+                    loadBoxes(2)
+                    colorBoxes()
+                    draw()
+                }
+                start()
+            }
             </script>
     </body>
 </html>
