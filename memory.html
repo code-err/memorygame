@@ -83,6 +83,7 @@
                     }
                    }
 
+
                 // loadBoxes(4)
                  console.log(boxes)
                 // draw()
@@ -92,8 +93,26 @@
                     setColor(color){
                         this.color=color
                     },
-                        open(){
-                            this.closed=false
+                        select(){
+                            this.selected=true
+                        }
+                    }
+                }
+                function setupClicks(){
+                    let divs=document.querySelectorAll(".box")
+                    for(let box of divs){
+                        box.onclick=function(e){
+                           const index=e.target.id
+                           const selectedbox=boxes[index]
+                           if(!selectedbox.selected){
+                           if(selectedbox.color){
+                            e.target.classList.add(selectedbox.color)
+                           }
+                           else{
+                            alert("You Lose")
+                           }
+                           selectedbox.select()
+                        }
                         }
                     }
                 }
@@ -102,16 +121,16 @@
                         let redBoxes=document.querySelectorAll(".red")
                         for(let box of redBoxes){
                             box.classList.remove("red")
-                        }
+                        }setupClicks()
                     },duration)
-
                 }
+               
                 function start(){
                     loadBoxes(4)
                     colorBoxes()
                     draw()
-                    toggleColor(1000)
-
+                    toggleColor(2000)
+                   
                 }
                 start()
             }
